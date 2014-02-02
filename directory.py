@@ -134,6 +134,8 @@ class DirectoryBackend(LibraryBackend):
             # previous_db acts as a cache of mtime and metadata, keyed by
             # filename.
             rec_mtime, old_metadata = previous_db.get(filename, (None, None))
+            if (u'\0' in filename):
+                raise ValueError
             file_mtime = os.stat(filename).st_mtime
 
             if rec_mtime is not None and rec_mtime >= file_mtime:
